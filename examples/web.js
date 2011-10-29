@@ -6,4 +6,8 @@ app.index = function(req, c){
     log(req.url + ' "' + req.headers['user-agent'] + '"')
     return c.render('Hello Node')
 }
+app.hoge = function(req, c){
+    log(req.url + ' "' + req.headers['user-agent'] + '"')
+    return c.render('Hello Node hoge!')
+}
 festa.run()

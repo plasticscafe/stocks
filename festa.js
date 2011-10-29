@@ -1,3 +1,10 @@
+/*
+ * Festa-node
+ *
+ * web framework for node
+ *
+ * Copyright(c) 2011 plasticscafe <plasticscafe@gmail.com>
+ */
 /*** includet ***/
 var http = require('http'),
     url = require('url'),
@@ -10,7 +17,8 @@ exports.debug = false
 // render
 exports.execute = function(apps){
     return function(req, res){
-        var app = (req.url != '/') ? req.url : 'index'  
+        var path = req.url.split('/')
+        var app = (path[1] != '') ? path[1] : 'index'  
         var r = apps[app](req, exports.c)
         /* render */
         res.writeHead(r['code'], {'Content-Type': r['type'] })
