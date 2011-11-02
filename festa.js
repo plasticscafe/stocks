@@ -10,16 +10,48 @@ var http = require('http'),
     url = require('url'),
     util = require('util')
 /*** festa ***/ 
-exports.apps = new Array
+exports.apps = []
+// setting route
+exports.routes = {}
+exports.route = function(path, func){
+    var re_path = path.replace(/(:[^\/]+)/g, '([^\\/]+)')
+    var args = [] 
+    var items = path.match(new RegExp(re_path))
+    items.shift()
+    for(item in items){
+        if(item == 'index') break
+        args.push(items[item].replace(/^:/, ''))
+    }
+    exports.routes[re_path] = {'func':func, 'args':args}
+} 
+exports.before = function(){
+ // ルーティングを追加
+} 
+
+exports.after = function(){
+ // ルーティングを追加
+} 
 exports.server = http.createServer()
 // debug setting
 exports.debug = false
 // render
 exports.execute = function(apps){
     return function(req, res){
-        var path = req.url.split('/')
-        var app = (path[1] != '') ? path[1] : 'index'  
-        var r = apps[app](req, exports.c)
+        check = false
+        for(route in exports.routes){
+            var re = new RegExp('^' + route + '$')
+            if(re.test(req.url)){
+                check = true
+                args = req.url.match(re)
+                break
+            }
+        }
+        if(!check) return
+        exports.c.req = req
+        // set param
+        exports.c.args = {'val1':11, 'val2':12}
+        // execute
+        var r = exports.routes[route]['func'](exports.c)
         /* render */
         res.writeHead(r['code'], {'Content-Type': r['type'] })
         res.end(r['res'])
