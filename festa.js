@@ -43,13 +43,17 @@ exports.execute = function(apps){
             if(re.test(req.url)){
                 check = true
                 args = req.url.match(re)
+                args.shift()
+                exports.c.args = []; 
+                for(arg in args){
+                    if(arg == 'input') break
+                    exports.c.args[exports.routes[route]['args'][arg]] = args[arg]
+                }
                 break
             }
         }
         if(!check) return
         exports.c.req = req
-        // set param
-        exports.c.args = {'val1':11, 'val2':12}
         // execute
         var r = exports.routes[route]['func'](exports.c)
         /* render */
