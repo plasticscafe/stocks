@@ -24,12 +24,15 @@ exports.route = function(path, func){
     }
     exports.routes[re_path] = {'func':func, 'args':args}
 } 
-exports.before = function(){
- // ルーティングを追加
+// before process
+exports.befores = []
+exports.before = function(func){
+    exports.befores.push(func)
 } 
-
-exports.after = function(){
- // ルーティングを追加
+// after process
+exports.afters = []
+exports.after = function(func){
+    exports.afters.push(func)
 } 
 exports.server = http.createServer()
 // debug setting
@@ -54,11 +57,15 @@ exports.execute = function(apps){
         }
         if(!check) return
         exports.c.req = req
+        // before methods
+        for(before in exports.befores) exports.befores[before](exports.c)
         // execute
         var r = exports.routes[route]['func'](exports.c)
         /* render */
         res.writeHead(r['code'], {'Content-Type': r['type'] })
         res.end(r['res'])
+        // after methods
+        for(after in exports.afters) exports.afters[after](exports.c)
     }
 }
 exports.run = function(port){

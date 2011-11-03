@@ -16,17 +16,17 @@ festa.route('/hoge/:val1/huga/:val2', function(c){
     return c.render('Hello Node huga! val1:' + c.args['val1'] + ' val2:' + c.args['val2'])
 })
 /*** before ***/
-festa.before(function(){
+festa.before(function(c){
     log('before1 call')
 })
-festa.before(function(){
+festa.before(function(c){
     log('before2 call')
 })
 /*** after ***/
-festa.after(function(){
+festa.after(function(c){
     log('after1 call')
 })
-festa.after(function(){
+festa.after(function(c){
     log('after2 call')
 })
 /*** run ***/
