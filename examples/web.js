@@ -13,6 +13,7 @@ festa.route('/hoge/:val1/', function(c){
 })
 festa.route('/hoge/:val1/huga/:val2', function(c){
     log('call huga :args ' + c.args['val1'] + ' & ' + c.args['val2'])
+    log('get params: ' + c.params['key'])
     return c.render('Hello Node huga! val1:' + c.args['val1'] + ' val2:' + c.args['val2'])
 })
 /*** before ***/

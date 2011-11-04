@@ -8,7 +8,8 @@
 /*** includet ***/
 var http = require('http'),
     url = require('url'),
-    util = require('util')
+    util = require('util'),
+    qs = require('querystring')
 /*** festa ***/ 
 exports.apps = []
 // setting route
@@ -40,12 +41,27 @@ exports.debug = false
 // render
 exports.execute = function(apps){
     return function(req, res){
+        // get params
+        var url_parts = url.parse(req.url, true)
+        var url_path = url_parts.pathname
+        if(req.method=='POST'){
+                var body=''
+                req.on('data', function(data){ body +=data })
+                req.on('end',function(){ 
+                    var posts = qs.parse(body)
+                    for(key in posts) exports.c.params[key] = posts[key] 
+                })
+        }else if(req.method=='GET'){
+            var gets = url_parts.query
+            for(key in gets) exports.c.params[key] = gets[key] 
+        }
+        // setting routes
         check = false
         for(route in exports.routes){
             var re = new RegExp('^' + route + '$')
             if(re.test(req.url)){
                 check = true
-                args = req.url.match(re)
+                args = url_path.match(re)
                 args.shift()
                 exports.c.args = []; 
                 for(arg in args){
@@ -81,6 +97,7 @@ exports.c.render = function(res, code, type){
     if(type == undefined) type = 'text/plain' 
     return {'res':res, 'code':code, 'type':type} 
 }
+exports.c.params = []
 // logger
 exports.log = function(mes, level){
     if(level == undefined) level = 3 
