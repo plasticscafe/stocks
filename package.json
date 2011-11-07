@@ -1,0 +1,12 @@
+{
+  "name": "festa",
+  "description": "Simple Web Application Framework"
+  "version": "0.0.1",
+  "engines": { "node": ">= 0.5.0" },
+  "author": { "name": "plasticscafe", "email": "plasticscafe@gmail.com" }
+  "dependencies": {
+  },
+  "repository":{
+    "type": "git", "url": "https://github.com/plasticscafe/Festa.git"
+  }
+}
