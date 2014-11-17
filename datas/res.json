@@ -1,0 +1,57 @@
+{
+  "routes": [
+    {
+      "desc": "this is top request",
+      "path": "/",
+      "method": "get",
+      "def": {
+        "params": [
+          { "key": "req1", "type": "int", "desc": "req value of int" },
+          { "key": "req2", "type": "string", "desc": "req value of string" }
+        ], 
+        "res": [
+          { "key": "res1", "type": "int", "desc": "responce value of int" },
+          { "key": "res2", "type": "string", "desc": "responce value of string" }
+        ]
+      },
+      "data":[
+        { 
+          "params": { "req1": 1, "req2": "test1" },  
+          "res": { "res1": "int1", "res2": "string1" }
+        },{
+          "params": { "req1": 2, "req2": "test2" },  
+          "res": { "res1": "int2", "res2": "string2" }
+        }
+      ]
+    },
+    {
+      "desc": "this is vals request",
+      "path": "/vals/:val1/",
+      "method": "get",
+      "def": {
+        "args": [
+          { "key": "val1", "type": "int", "desc": "arg value of int" }
+        ], 
+        "params": [
+          { "key": "req1", "type": "int", "desc": "req value of int" },
+          { "key": "req2", "type": "string", "desc": "req value of string" }
+        ], 
+        "res": [
+          { "key": "res1", "type": "int", "desc": "responce value of int" },
+          { "key": "res2", "type": "string", "desc": "responce value of string" }
+        ] 
+      },
+      "data":[
+        { 
+          "args": { "val1": 1 },  
+          "params": { "req1": 1, "req2": "test1" },  
+          "res": { "res1": "int1", "res2": "string1" }
+        },{
+          "args": { "val1": 2 },  
+          "params": { "req1": 2, "req2": "test2" },  
+          "res": { "res1": "int2", "res2": "string2" }
+        }
+      ]
+    }
+  ]
+}
